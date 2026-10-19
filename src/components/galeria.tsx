@@ -33,7 +33,7 @@ export function Galeria({ fotos }: { fotos: Foto[] }) {
         onScroll={atualizar}
         tabIndex={0}
         aria-label="Fotos da cantina (role para o lado)"
-        className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {fotos.map((foto) => (
           <li key={foto.legenda} className="shrink-0 snap-start">
@@ -53,38 +53,37 @@ export function Galeria({ fotos }: { fotos: Foto[] }) {
         ))}
       </ul>
 
-      <div className="mx-auto mt-4 hidden max-w-6xl justify-end gap-2 px-4 [@media(hover:hover)_and_(pointer:fine)]:flex">
-        <Seta rotulo="Fotos anteriores" desativada={inicio} onClick={() => rolar(-1)}>
-          ←
-        </Seta>
-        <Seta rotulo="Próximas fotos" desativada={fim} onClick={() => rolar(1)}>
-          →
-        </Seta>
-      </div>
+      {/* Setas flutuando sobre as fotos, uma de cada lado. Só para quem tem mouse. */}
+      <Seta lado="esquerda" rotulo="Fotos anteriores" escondida={inicio} onClick={() => rolar(-1)} />
+      <Seta lado="direita" rotulo="Próximas fotos" escondida={fim} onClick={() => rolar(1)} />
     </div>
   );
 }
 
 function Seta({
+  lado,
   rotulo,
-  desativada,
+  escondida,
   onClick,
-  children,
 }: {
+  lado: "esquerda" | "direita";
   rotulo: string;
-  desativada: boolean;
+  escondida: boolean;
   onClick: () => void;
-  children: React.ReactNode;
 }) {
   return (
     <button
       type="button"
       aria-label={rotulo}
-      disabled={desativada}
+      disabled={escondida}
       onClick={onClick}
-      className="pressable grid size-11 place-items-center rounded-full border border-basalto/20 text-lg transition-opacity hover:bg-basalto/5 disabled:opacity-30 disabled:hover:bg-transparent"
+      className={`pressable absolute top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-full bg-cal/90 text-basalto shadow-[0_2px_8px_rgb(38_37_35/0.25)] backdrop-blur-sm transition-[opacity,background-color] duration-150 ease-out hover:bg-cal disabled:pointer-events-none disabled:opacity-0 [@media(hover:hover)_and_(pointer:fine)]:grid ${
+        lado === "esquerda" ? "left-4 md:left-6" : "right-4 md:right-6"
+      }`}
     >
-      {children}
+      <svg aria-hidden viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth={2.25} strokeLinecap="round" strokeLinejoin="round">
+        <path d={lado === "esquerda" ? "M15 18l-6-6 6-6" : "M9 6l6 6-6 6"} />
+      </svg>
     </button>
   );
 }
