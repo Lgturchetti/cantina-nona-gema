@@ -49,13 +49,13 @@ function assinar(avisar: () => void) {
   return () => clearInterval(id);
 }
 
-export function StatusAgora() {
+export function StatusAgora({ claro = false }: { claro?: boolean }) {
   const status = useSyncExternalStore(assinar, ler, () => null);
   return (
     <p className="flex min-h-6 items-center gap-2 text-sm" aria-live="polite">
       {status && (
         <>
-          <span aria-hidden className={`size-2 rounded-full ${status.aberto ? "bg-[#3f8f55]" : "bg-basalto/40"}`} />
+          <span aria-hidden className={`size-2 rounded-full ${status.aberto ? "bg-[#3f8f55]" : claro ? "bg-cal/50" : "bg-basalto/40"}`} />
           <span className="surge">{status.texto}</span>
         </>
       )}

@@ -52,14 +52,6 @@ body {
   transform: scale(0.97);
 }
 
-/* Faixa da galeria: a 1ª foto alinha com o conteúdo (max-w-6xl + px-4),
-   mas a faixa vaza até a borda da tela para mostrar que tem mais para o lado. */
-.faixa {
-  --margem: max(1rem, calc((100% - 72rem) / 2 + 1rem));
-  padding-inline: var(--margem);
-  scroll-padding-inline: var(--margem);
-}
-
 /* Entradas da capa. Atraso por elemento via --atraso (style inline). */
 
 /* Título: cada palavra sobe de dentro de uma máscara.
@@ -88,6 +80,14 @@ body {
   from { opacity: 0; transform: translateY(8px); }
 }
 
+/* Foto da capa assenta devagar (zoom-out sutil) */
+.capa-foto {
+  animation: capa-assenta 900ms var(--ease-out) both;
+}
+@keyframes capa-assenta {
+  from { transform: scale(1.05); }
+}
+
 /* Só aparece, sem deslocamento */
 .surge {
   animation: surge 200ms ease-out both;
@@ -103,6 +103,9 @@ body {
   }
   .pressable:active {
     transform: none;
+  }
+  .capa-foto {
+    animation: none;
   }
   .cartaz-palavra,
   .entra {

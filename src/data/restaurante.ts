@@ -39,6 +39,12 @@ export const restaurante = {
 // Fotos (créditos em src/fotos/CREDITOS.md). `alt` descreve a foto; `legenda` aparece na tela.
 export type Foto = { src: StaticImageData; alt: string; legenda: string };
 
+export const fotoCapa: Foto = {
+  src: massaFarinha,
+  alt: "Mãos abrindo massa sobre a farinha",
+  legenda: "Massa aberta à mão",
+};
+
 export const fotoSobre: Foto = {
   src: vinhedo,
   alt: "Vinhedo numa encosta verde, com uma casa de pedra e morros ao fundo",
@@ -46,7 +52,6 @@ export const fotoSobre: Foto = {
 };
 
 export const galeria: Foto[] = [
-  { src: massaFarinha, alt: "Mãos abrindo massa sobre a farinha", legenda: "Massa aberta na farinha" },
   { src: torteiAoSugo, alt: "Prato de tortéi com molho de tomate e manjericão", legenda: "Tortéi ao sugo" },
   { src: brasa, alt: "Carvão em brasa soltando faíscas na churrasqueira", legenda: "A brasa do galeto" },
   { src: vinho, alt: "Taça de vinho tinto sobre mesa de madeira", legenda: "Vinho colonial" },

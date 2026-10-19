@@ -5,6 +5,7 @@ import { StatusAgora } from "@/components/status-agora";
 import {
   cardapio,
   formatarPreco,
+  fotoCapa,
   fotoSobre,
   galeria,
   horariosParaExibir,
@@ -52,10 +53,24 @@ export default function Home() {
       </header>
 
       <main id="inicio" className="flex-1">
-        {/* CAPA — "Cartaz": o título em talian é a imagem, como cartaz de festa da colônia */}
-        <section className="bg-polenta text-vinho">
+        {/* CAPA — "Cartaz" sobre foto: título gigante em talian por cima da massa aberta à mão */}
+        <section className="relative isolate overflow-hidden bg-basalto text-cal">
+          <Image
+            src={fotoCapa.src}
+            alt=""
+            fill
+            preload
+            placeholder="blur"
+            sizes="100vw"
+            className="capa-foto -z-20 object-cover"
+          />
+          {/* Escurece embaixo (onde fica o texto) e um pouco em cima (linha de info) */}
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 bg-linear-to-t from-basalto/95 via-basalto/55 to-basalto/35"
+          />
           <div className="mx-auto flex min-h-[calc(100svh-61px)] max-w-6xl flex-col px-4 pt-8 pb-10 md:pt-12">
-            <div className="entra flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 text-sm">
+            <div className="entra flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 text-sm text-cal/85">
               <p>Cozinha da Quarta Colônia</p>
               <p>Centro · Santa Maria/RS</p>
             </div>
@@ -70,25 +85,25 @@ export default function Home() {
                 </span>
               </span>
             </h1>
-            <p className="entra mt-6 text-sm italic md:mt-10" style={atraso(200)}>
+            <p className="entra mt-6 text-sm text-cal/80 italic md:mt-10" style={atraso(200)}>
               “venha comer”, em talian, o dialeto dos imigrantes vênetos
             </p>
 
             <div
-              className="entra mt-8 grid gap-6 border-t border-vinho/25 pt-6 md:grid-cols-[1.2fr_1fr_auto] md:items-end"
+              className="entra mt-8 grid gap-6 border-t border-cal/25 pt-6 md:grid-cols-[1.2fr_1fr_auto] md:items-end"
               style={atraso(260)}
             >
-              <p className="max-w-sm text-lg text-basalto">
+              <p className="max-w-sm text-lg text-cal/90">
                 Galeto na brasa, massa aberta à mão e polenta na chapa. Pode chegar, tem lugar na mesa.
               </p>
-              <div className="text-basalto">
-                <StatusAgora />
+              <div className="text-cal/90">
+                <StatusAgora claro />
               </div>
               <div className="flex flex-wrap gap-3">
-                <a href="#cardapio" className="pressable rounded-full bg-vinho px-6 py-3 font-medium text-cal">
+                <a href="#cardapio" className="pressable rounded-full bg-polenta px-6 py-3 font-medium text-basalto">
                   Ver cardápio
                 </a>
-                <a href={reservar} className="pressable rounded-full border border-vinho px-6 py-3 font-medium">
+                <a href={reservar} className="pressable rounded-full border border-cal/60 px-6 py-3 font-medium">
                   Reservar
                 </a>
               </div>

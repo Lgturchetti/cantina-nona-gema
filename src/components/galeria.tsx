@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import type { Foto } from "@/data/restaurante";
 
 // Faixa de fotos com rolagem nativa + snap (a física do navegador é melhor que um carrossel feito à mão).
-// Setas só aparecem em quem tem mouse; no celular é o dedo.
+// Ocupa a tela toda, de borda a borda. Setas só aparecem em quem tem mouse; no celular é o dedo.
 
 export function Galeria({ fotos }: { fotos: Foto[] }) {
   const trilho = useRef<HTMLUListElement>(null);
@@ -33,19 +33,21 @@ export function Galeria({ fotos }: { fotos: Foto[] }) {
         onScroll={atualizar}
         tabIndex={0}
         aria-label="Fotos da cantina (role para o lado)"
-        className="faixa flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {fotos.map((foto) => (
           <li key={foto.legenda} className="shrink-0 snap-start">
-            <figure>
+            <figure className="relative">
               <Image
                 src={foto.src}
                 alt={foto.alt}
                 placeholder="blur"
                 sizes="(min-width: 768px) 560px, 85vw"
-                className="h-72 w-auto max-w-[85vw] rounded-sm object-cover md:h-[26rem]"
+                className="h-72 w-auto max-w-[85vw] object-cover md:h-[26rem]"
               />
-              <figcaption className="mt-2 text-sm text-basalto-suave">{foto.legenda}</figcaption>
+              <figcaption className="absolute bottom-3 left-3 rounded-full bg-basalto/65 px-3 py-1 text-xs text-cal backdrop-blur-sm">
+                {foto.legenda}
+              </figcaption>
             </figure>
           </li>
         ))}
