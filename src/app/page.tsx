@@ -80,18 +80,18 @@ export default function Home() {
                 <span className="cartaz-palavra">Vien</span>
               </span>
               <span className="cartaz-mascara">
-                <span className="cartaz-palavra" style={atraso(70)}>
+                <span className="cartaz-palavra" style={atraso(60)}>
                   magnar!
                 </span>
               </span>
             </h1>
-            <p className="entra mt-6 text-sm text-cal/80 italic md:mt-10" style={atraso(200)}>
+            <p className="entra mt-6 text-sm text-cal/80 italic md:mt-10" style={atraso(120)}>
               “venha comer”, em talian, o dialeto dos imigrantes vênetos
             </p>
 
             <div
               className="entra mt-8 grid gap-6 border-t border-cal/25 pt-6 md:grid-cols-[1.2fr_1fr_auto] md:items-end"
-              style={atraso(260)}
+              style={atraso(180)}
             >
               <p className="max-w-sm text-lg text-cal/90">
                 Galeto na brasa, massa aberta à mão e polenta na chapa. Pode chegar, tem lugar na mesa.
