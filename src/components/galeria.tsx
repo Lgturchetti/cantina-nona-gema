@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import type { Foto } from "@/data/restaurante";
 
 // Faixa de fotos com rolagem nativa + snap (a física do navegador é melhor que um carrossel feito à mão).
-// Ocupa a tela toda, de borda a borda. Setas só aparecem em quem tem mouse; no celular é o dedo.
+// Ocupa a tela toda, com o respiro lateral do site nas pontas (alinha com o título). Setas só aparecem em quem tem mouse; no celular é o dedo.
 
 export function Galeria({ fotos }: { fotos: Foto[] }) {
   const trilho = useRef<HTMLUListElement>(null);
@@ -33,7 +33,7 @@ export function Galeria({ fotos }: { fotos: Foto[] }) {
         onScroll={atualizar}
         tabIndex={0}
         aria-label="Fotos da cantina (role para o lado)"
-        className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain focus-visible:-outline-offset-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory gap-3 overflow-x-auto px-margem scroll-px-margem overscroll-x-contain focus-visible:-outline-offset-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {fotos.map((foto, i) => (
           <li key={`${i}-${foto.legenda}`} className="shrink-0 snap-start">

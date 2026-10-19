@@ -81,6 +81,12 @@
   padding-right: max(1rem, env(safe-area-inset-right, 0px));
 }
 
+/* Mesmo respiro para o encaixe da rolagem (galeria) */
+@utility scroll-px-margem {
+  scroll-padding-left: max(1rem, env(safe-area-inset-left, 0px));
+  scroll-padding-right: max(1rem, env(safe-area-inset-right, 0px));
+}
+
 /* Pressionáveis respondem ao toque (100–160ms, ease-out).
    Fica fora de @layer de propósito: a transição vale para todos, inclusive a opacidade das setas. */
 .pressable {
