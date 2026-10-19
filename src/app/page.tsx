@@ -1,17 +1,22 @@
+import type { CSSProperties } from "react";
+import { StatusAgora } from "@/components/status-agora";
 import {
   cardapio,
   formatarPreco,
+  horariosParaExibir,
   linkWhatsApp,
   restaurante,
   rodizio,
 } from "@/data/restaurante";
 
-// Esqueleto da página. A capa (hero) será escolhida via /prototype.
 // Fotos: blocos de cor até escolhermos as imagens do Unsplash/Pexels.
 
 const reservar = linkWhatsApp(
   `Olá! Quero reservar uma mesa na ${restaurante.nome}.`,
 );
+
+// Atraso da entrada escalonada da capa (classes .entra / .cartaz-palavra no globals.css).
+const atraso = (ms: number) => ({ "--atraso": `${ms}ms` }) as CSSProperties;
 
 export default function Home() {
   return (
@@ -36,27 +41,47 @@ export default function Home() {
       </header>
 
       <main id="inicio" className="flex-1">
-        {/* HERO — provisório */}
-        <section className="bg-polenta">
-          <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 md:grid-cols-2 md:py-24">
-            <div className="flex flex-col justify-end">
-              <p className="text-vinho">Cozinha da Quarta Colônia em Santa Maria</p>
-              <h1 className="mt-3 font-display text-6xl leading-[0.95] text-vinho md:text-8xl">
-                Vien magnar!
-              </h1>
-              <p className="mt-5 max-w-md text-lg text-basalto">
+        {/* CAPA — "Cartaz": o título em talian é a imagem, como cartaz de festa da colônia */}
+        <section className="bg-polenta text-vinho">
+          <div className="mx-auto flex min-h-[calc(100svh-61px)] max-w-6xl flex-col px-4 pt-8 pb-10 md:pt-12">
+            <div className="entra flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 text-sm">
+              <p>Cozinha da Quarta Colônia</p>
+              <p>Centro · Santa Maria/RS</p>
+            </div>
+
+            <h1 className="mt-auto pt-10 font-display leading-[0.82] tracking-[-0.02em] text-[clamp(4rem,21vw,15rem)]">
+              <span className="cartaz-mascara">
+                <span className="cartaz-palavra">Vien</span>
+              </span>
+              <span className="cartaz-mascara">
+                <span className="cartaz-palavra" style={atraso(70)}>
+                  magnar!
+                </span>
+              </span>
+            </h1>
+            <p className="entra mt-6 text-sm italic md:mt-10" style={atraso(200)}>
+              “venha comer”, em talian, o dialeto dos imigrantes vênetos
+            </p>
+
+            <div
+              className="entra mt-8 grid gap-6 border-t border-vinho/25 pt-6 md:grid-cols-[1.2fr_1fr_auto] md:items-end"
+              style={atraso(260)}
+            >
+              <p className="max-w-sm text-lg text-basalto">
                 Galeto na brasa, massa aberta à mão e polenta na chapa. Pode chegar, tem lugar na mesa.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="text-basalto">
+                <StatusAgora />
+              </div>
+              <div className="flex flex-wrap gap-3">
                 <a href="#cardapio" className="pressable rounded-full bg-vinho px-6 py-3 font-medium text-cal">
                   Ver cardápio
                 </a>
-                <a href={reservar} className="pressable rounded-full border border-vinho px-6 py-3 font-medium text-vinho">
-                  Reservar pelo WhatsApp
+                <a href={reservar} className="pressable rounded-full border border-vinho px-6 py-3 font-medium">
+                  Reservar
                 </a>
               </div>
             </div>
-            <div aria-hidden className="aspect-[4/5] rounded-sm bg-vinho/15" />
           </div>
         </section>
 
@@ -117,7 +142,7 @@ export default function Home() {
             <h2 className="font-display text-4xl text-vinho md:text-5xl">Como chegar</h2>
             <p className="mt-4 text-lg">{restaurante.endereco}</p>
             <dl className="mt-8 space-y-3">
-              {restaurante.horarios.map((h) => (
+              {horariosParaExibir().map((h) => (
                 <div key={h.dias} className="flex justify-between gap-4 border-b border-basalto/10 pb-3">
                   <dt>{h.dias}</dt>
                   <dd className="text-right text-basalto-suave">{h.horas}</dd>

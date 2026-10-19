@@ -22,13 +22,66 @@ export const restaurante = {
     "Galeto al primo canto, massa feita à mão e polenta brustolada, do jeito da Quarta Colônia. No centro de Santa Maria.",
   endereco: "Rua Fictícia, 123 — Centro, Santa Maria/RS",
   whatsapp: "5555900000000", // número de exemplo
-  horarios: [
-    { dias: "Terça a sexta", horas: "11h30 às 14h30 · 19h às 23h" },
-    { dias: "Sábado", horas: "11h30 às 15h · 19h às 23h30" },
-    { dias: "Domingo", horas: "11h30 às 15h30" },
-    { dias: "Segunda", horas: "Fechado" },
-  ],
 };
+
+// Horário de funcionamento (horário de Brasília). Uma lista de turnos por dia da semana;
+// horas em decimal: 11.5 = 11h30. Dia sem turnos = fechado.
+// É daqui que saem a tabela do "Como chegar" e o selo "Aberto agora".
+export type Turno = [abre: number, fecha: number];
+
+// Ordem do Date.getDay(): 0 = domingo.
+export const diasSemana = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"] as const;
+export type DiaSemana = (typeof diasSemana)[number];
+
+export const funcionamento: Record<DiaSemana, Turno[]> = {
+  domingo: [[11.5, 15.5]],
+  segunda: [],
+  terca: [[11.5, 14.5], [19, 23]],
+  quarta: [[11.5, 14.5], [19, 23]],
+  quinta: [[11.5, 14.5], [19, 23]],
+  sexta: [[11.5, 14.5], [19, 23]],
+  sabado: [[11.5, 15], [19, 23.5]],
+};
+
+export const nomeDia: Record<DiaSemana, string> = {
+  domingo: "domingo",
+  segunda: "segunda",
+  terca: "terça",
+  quarta: "quarta",
+  quinta: "quinta",
+  sexta: "sexta",
+  sabado: "sábado",
+};
+
+export function formatarHora(h: number) {
+  const min = Math.round((h % 1) * 60);
+  return `${Math.floor(h)}h${min ? String(min).padStart(2, "0") : ""}`;
+}
+
+// Tabela para exibir: junta dias seguidos com o mesmo horário ("Terça a sexta").
+// Começa na terça porque a casa fecha na segunda.
+export function horariosParaExibir() {
+  const ordem: DiaSemana[] = ["terca", "quarta", "quinta", "sexta", "sabado", "domingo", "segunda"];
+  const chave = (d: DiaSemana) => JSON.stringify(funcionamento[d]);
+  const grupos: DiaSemana[][] = [];
+  for (const dia of ordem) {
+    const ultimo = grupos.at(-1);
+    if (ultimo && chave(ultimo[0]) === chave(dia)) ultimo.push(dia);
+    else grupos.push([dia]);
+  }
+  const maiuscula = (s: string) => s[0].toUpperCase() + s.slice(1);
+  return grupos.map((g) => {
+    const primeiro = nomeDia[g[0]];
+    const ultimo = nomeDia[g[g.length - 1]];
+    const turnos = funcionamento[g[0]];
+    return {
+      dias: maiuscula(g.length === 1 ? primeiro : `${primeiro} ${g.length === 2 ? "e" : "a"} ${ultimo}`),
+      horas: turnos.length
+        ? turnos.map(([a, f]) => `${formatarHora(a)} às ${formatarHora(f)}`).join(" · ")
+        : "Fechado",
+    };
+  });
+}
 
 export const rodizio = {
   preco: 79.9,

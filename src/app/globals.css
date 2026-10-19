@@ -52,11 +52,52 @@ body {
   transform: scale(0.97);
 }
 
+/* Entradas da capa. Atraso por elemento via --atraso (style inline). */
+
+/* Título: cada palavra sobe de dentro de uma máscara.
+   O padding/margin negativo dá folga para o "!" e a perna do "g" não serem cortados. */
+.cartaz-mascara {
+  display: block;
+  overflow: hidden;
+  padding: 0.12em 0 0.2em;
+  margin: -0.12em 0 -0.2em;
+}
+.cartaz-palavra {
+  display: block;
+  animation: cartaz-sobe 420ms var(--ease-out) both;
+  animation-delay: var(--atraso, 0ms);
+}
+@keyframes cartaz-sobe {
+  from { transform: translateY(105%); }
+}
+
+/* Entrada curta e discreta */
+.entra {
+  animation: entra 300ms var(--ease-out) both;
+  animation-delay: var(--atraso, 0ms);
+}
+@keyframes entra {
+  from { opacity: 0; transform: translateY(8px); }
+}
+
+/* Só aparece, sem deslocamento */
+.surge {
+  animation: surge 200ms ease-out both;
+  animation-delay: var(--atraso, 0ms);
+}
+@keyframes surge {
+  from { opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
   .pressable:active {
     transform: none;
+  }
+  .cartaz-palavra,
+  .entra {
+    animation: surge 200ms ease-out both;
   }
 }
