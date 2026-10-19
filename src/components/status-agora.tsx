@@ -1,7 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { diasSemana, formatarHora, funcionamento, nomeDia } from "@/data/restaurante";
+import { aHora, diasSemana, funcionamento, nomeDia, type Turno } from "@/data/restaurante";
 
 // Selo "Aberto agora · fecha às 14h30", calculado no navegador pelo horário de Brasília
 // (vale mesmo se o visitante estiver em outro fuso). No servidor não renderiza nada.
@@ -21,17 +21,23 @@ export function calcularStatus(agora = new Date()): Status {
   const h = Number(pega("hour")) + Number(pega("minute")) / 60;
   const turnosDe = (i: number) => funcionamento[diasSemana[i % 7]];
 
-  const atual = turnosDe(hoje).find(([a, f]) => h >= a && h < f);
-  if (atual) return { aberto: true, texto: `Aberto agora · fecha às ${formatarHora(atual[1])}` };
+  const viraDia = ([a, f]: Turno) => f <= a;
+
+  // Madrugada: turno de ontem que passou da meia-noite e ainda não fechou
+  const deOntem = turnosDe(hoje + 6).find((t) => viraDia(t) && h < t[1]);
+  if (deOntem) return { aberto: true, texto: `Aberto agora · fecha ${aHora(deOntem[1])}` };
+
+  const atual = turnosDe(hoje).find((t) => h >= t[0] && (viraDia(t) || h < t[1]));
+  if (atual) return { aberto: true, texto: `Aberto agora · fecha ${aHora(atual[1])}` };
 
   const maisTarde = turnosDe(hoje).find(([a]) => a > h);
-  if (maisTarde) return { aberto: false, texto: `Fechado agora · abre hoje às ${formatarHora(maisTarde[0])}` };
+  if (maisTarde) return { aberto: false, texto: `Fechado agora · abre hoje ${aHora(maisTarde[0])}` };
 
   for (let i = 1; i <= 7; i++) {
     const turnos = turnosDe(hoje + i);
     if (turnos.length) {
       const quando = i === 1 ? "amanhã" : nomeDia[diasSemana[(hoje + i) % 7]];
-      return { aberto: false, texto: `Fechado agora · abre ${quando} às ${formatarHora(turnos[0][0])}` };
+      return { aberto: false, texto: `Fechado agora · abre ${quando} ${aHora(turnos[0][0])}` };
     }
   }
   return { aberto: false, texto: "Fechado" };

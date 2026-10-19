@@ -21,6 +21,9 @@ const mapaOsm = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&la
 const googleMaps = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
 const waze = `https://waze.com/ul?ll=${lat},${lon}&navigate=yes`;
 
+// Categoria sem pratos não aparece (nem o atalho dela)
+const categorias = cardapio.filter((c) => c.pratos.length > 0);
+
 const reservar = linkWhatsApp(
   `Olá! Quero reservar uma mesa na ${restaurante.nome}.`,
 );
@@ -33,19 +36,19 @@ export default function Home() {
     <>
       <header className="sticky top-0 z-10 border-b border-basalto/10 bg-cal/90 backdrop-blur pt-[env(safe-area-inset-top)]">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-margem py-3">
-          <a href="#inicio" className="whitespace-nowrap font-display text-lg text-vinho sm:text-xl">
-            {restaurante.nome}
+          <a href="#inicio" className="min-w-0 truncate font-display text-base text-vinho min-[360px]:text-lg sm:text-xl">
+            {restaurante.nomeCurto}
           </a>
           <nav className="hidden gap-6 text-sm md:flex *:transition-colors *:duration-150 *:hover:text-vinho">
             <a href="#rodizio">Rodízio</a>
             <a href="#sobre">Sobre</a>
-            <a href="#cardapio">Cardápio</a>
-            <a href="#galeria">Galeria</a>
+            {categorias.length > 0 && <a href="#cardapio">Cardápio</a>}
+            {galeria.length > 0 && <a href="#galeria">Galeria</a>}
             <a href="#visite">Como chegar</a>
           </nav>
           <a
             href={reservar}
-            className="pressable whitespace-nowrap rounded-full bg-vinho px-4 py-2 text-sm font-medium text-cal hover:bg-vinho-escuro"
+            className="pressable shrink-0 whitespace-nowrap rounded-full bg-vinho px-4 py-2 text-sm font-medium text-cal hover:bg-vinho-escuro"
           >
             Reservar
           </a>
@@ -100,9 +103,11 @@ export default function Home() {
                 <StatusAgora claro />
               </div>
               <div className="flex flex-wrap gap-3">
-                <a href="#cardapio" className="pressable rounded-full bg-polenta px-6 py-3 font-medium text-basalto hover:bg-polenta-escura">
-                  Ver cardápio
-                </a>
+                {categorias.length > 0 && (
+                  <a href="#cardapio" className="pressable rounded-full bg-polenta px-6 py-3 font-medium text-basalto hover:bg-polenta-escura">
+                    Ver cardápio
+                  </a>
+                )}
                 <a href={reservar} className="pressable rounded-full border border-cal/60 px-6 py-3 font-medium hover:border-cal hover:bg-cal/10">
                   Reservar
                 </a>
@@ -160,48 +165,52 @@ export default function Home() {
         </section>
 
         {/* CARDÁPIO */}
-        <section id="cardapio" className="bg-cal-escura py-20">
-          <div className="mx-auto max-w-6xl px-margem">
-            <h2 className="font-display text-4xl text-vinho md:text-5xl">Cardápio</h2>
-            <nav aria-label="Categorias do cardápio" className="mt-6 -mx-4 flex gap-2 overflow-x-auto pr-10 pl-4 pb-2 [mask-image:linear-gradient(to_right,#000_calc(100%-2.5rem),transparent)] md:px-4 md:[mask-image:none]">
-              {cardapio.map((c) => (
-                <a key={c.id} href={`#${c.id}`} className="pressable shrink-0 rounded-full border border-basalto/20 px-4 py-2 text-sm hover:border-basalto/40 hover:bg-basalto/5">
-                  {c.nome}
-                </a>
-              ))}
-            </nav>
-            <div className="mt-10 grid gap-14 md:grid-cols-2">
-              {cardapio.map((categoria) => (
-                <div key={categoria.id} id={categoria.id}>
-                  <h3 className="font-display text-2xl text-araucaria">{categoria.nome}</h3>
-                  <ul className="mt-4 space-y-5">
-                    {categoria.pratos.map((prato) => (
-                      <li key={prato.nome}>
-                        <div className="flex items-baseline gap-3">
-                          <span className="font-medium">{prato.nome}</span>
-                          <span aria-hidden className="flex-1 border-b border-dotted border-basalto/30" />
-                          <span className="tabular-nums">{formatarPreco(prato.preco)}</span>
-                        </div>
-                        <p className="mt-1 text-sm text-basalto-suave">{prato.descricao}</p>
-                        {prato.selos && (
-                          <p className="mt-1 text-xs text-araucaria">{prato.selos.join(" e ")}</p>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+        {categorias.length > 0 && (
+          <section id="cardapio" className="bg-cal-escura py-20">
+            <div className="mx-auto max-w-6xl px-margem">
+              <h2 className="font-display text-4xl text-vinho md:text-5xl">Cardápio</h2>
+              <nav aria-label="Categorias do cardápio" className="mt-6 -mx-4 flex gap-2 overflow-x-auto pr-10 pl-4 pb-2 [mask-image:linear-gradient(to_right,#000_calc(100%-2.5rem),transparent)] md:px-4 md:[mask-image:none]">
+                {categorias.map((c) => (
+                  <a key={c.id} href={`#${c.id}`} className="pressable shrink-0 rounded-full border border-basalto/20 px-4 py-2 text-sm hover:border-basalto/40 hover:bg-basalto/5">
+                    {c.nome}
+                  </a>
+                ))}
+              </nav>
+              <div className="mt-10 grid gap-14 md:grid-cols-2">
+                {categorias.map((categoria) => (
+                  <div key={categoria.id} id={categoria.id}>
+                    <h3 className="font-display text-2xl text-araucaria">{categoria.nome}</h3>
+                    <ul className="mt-4 space-y-5">
+                      {categoria.pratos.map((prato, i) => (
+                        <li key={`${i}-${prato.nome}`}>
+                          <div className="flex items-baseline gap-3">
+                            <span className="font-medium">{prato.nome}</span>
+                            <span aria-hidden className="flex-1 border-b border-dotted border-basalto/30" />
+                            <span className="shrink-0 whitespace-nowrap tabular-nums">{formatarPreco(prato.preco)}</span>
+                          </div>
+                          {prato.descricao && <p className="mt-1 text-sm text-basalto-suave">{prato.descricao}</p>}
+                          {prato.selos && (
+                            <p className="mt-1 text-xs text-araucaria">{prato.selos.join(" e ")}</p>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* GALERIA */}
-        <section id="galeria" className="py-20">
-          <h2 className="mx-auto max-w-6xl px-margem font-display text-4xl text-vinho md:text-5xl">Da cozinha para a mesa</h2>
-          <div className="mt-8">
-            <Galeria fotos={galeria} />
-          </div>
-        </section>
+        {galeria.length > 0 && (
+          <section id="galeria" className="py-20">
+            <h2 className="mx-auto max-w-6xl px-margem font-display text-4xl text-vinho md:text-5xl">Da cozinha para a mesa</h2>
+            <div className="mt-8">
+              <Galeria fotos={galeria} />
+            </div>
+          </section>
+        )}
 
         {/* VISITE */}
         <section id="visite" className="mx-auto grid max-w-6xl gap-10 px-margem pt-8 pb-20 md:grid-cols-2">
@@ -211,8 +220,12 @@ export default function Home() {
             <dl className="mt-8 space-y-3">
               {horariosParaExibir().map((h) => (
                 <div key={h.dias} className="flex justify-between gap-4 border-b border-basalto/10 pb-3">
-                  <dt>{h.dias}</dt>
-                  <dd className="text-right text-basalto-suave">{h.horas}</dd>
+                  <dt className="whitespace-nowrap">{h.dias}</dt>
+                  <dd className="text-right text-basalto-suave">
+                    {h.horas.map((t) => (
+                      <span key={t} className="block">{t}</span>
+                    ))}
+                  </dd>
                 </div>
               ))}
             </dl>

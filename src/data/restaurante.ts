@@ -28,6 +28,8 @@ export type Categoria = {
 
 export const restaurante = {
   nome: "Cantina Nona Gema",
+  // Versão curta para o cabeçalho (no celular cabe ~22 caracteres). Pode ser igual ao nome.
+  nomeCurto: "Cantina Nona Gema",
   descricao:
     "Galeto al primo canto, massa feita à mão e polenta brustolada, do jeito da Quarta Colônia. No centro de Santa Maria.",
   endereco: "Rua Fictícia, 123 — Centro, Santa Maria/RS",
@@ -62,6 +64,7 @@ export const galeria: Foto[] = [
 
 // Horário de funcionamento (horário de Brasília). Uma lista de turnos por dia da semana;
 // horas em decimal: 11.5 = 11h30. Dia sem turnos = fechado.
+// Turno que vira a madrugada: fecha menor que abre ([19, 1] = das 19h até 1h do dia seguinte).
 // É daqui que saem a tabela do "Como chegar" e o selo "Aberto agora".
 export type Turno = [abre: number, fecha: number];
 
@@ -89,9 +92,17 @@ export const nomeDia: Record<DiaSemana, string> = {
   sabado: "sábado",
 };
 
-export function formatarHora(h: number) {
+export function formatarHora(hora: number) {
+  const h = hora % 24; // 24 vira 0h
   const min = Math.round((h % 1) * 60);
   return `${Math.floor(h)}h${min ? String(min).padStart(2, "0") : ""}`;
+}
+
+// "às 23h", mas "à 1h" (e "à 0h" seria estranho, então meia-noite)
+export function aHora(hora: number) {
+  const h = hora % 24;
+  if (h === 0) return "à meia-noite";
+  return `${Math.floor(h) === 1 ? "à" : "às"} ${formatarHora(h)}`;
 }
 
 // Tabela para exibir: junta dias seguidos com o mesmo horário ("Terça a sexta").
@@ -112,9 +123,8 @@ export function horariosParaExibir() {
     const turnos = funcionamento[g[0]];
     return {
       dias: maiuscula(g.length === 1 ? primeiro : `${primeiro} ${g.length === 2 ? "e" : "a"} ${ultimo}`),
-      horas: turnos.length
-        ? turnos.map(([a, f]) => `${formatarHora(a)} às ${formatarHora(f)}`).join(" · ")
-        : "Fechado",
+      // Um turno por linha
+      horas: turnos.length ? turnos.map(([a, f]) => `${formatarHora(a)} ${aHora(f)}`) : ["Fechado"],
     };
   });
 }
@@ -184,6 +194,7 @@ export const cardapio: Categoria[] = [
 ];
 
 export function formatarPreco(valor: number) {
+  if (valor === 0) return "Cortesia";
   return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 

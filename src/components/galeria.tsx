@@ -35,8 +35,8 @@ export function Galeria({ fotos }: { fotos: Foto[] }) {
         aria-label="Fotos da cantina (role para o lado)"
         className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain focus-visible:-outline-offset-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {fotos.map((foto) => (
-          <li key={foto.legenda} className="shrink-0 snap-start">
+        {fotos.map((foto, i) => (
+          <li key={`${i}-${foto.legenda}`} className="shrink-0 snap-start">
             <figure className="relative">
               <Image
                 src={foto.src}
@@ -45,7 +45,7 @@ export function Galeria({ fotos }: { fotos: Foto[] }) {
                 sizes="(min-width: 768px) 560px, 85vw"
                 className="h-72 w-auto max-w-[85vw] object-cover md:h-[26rem]"
               />
-              <figcaption className="absolute bottom-3 left-3 rounded-full bg-basalto/65 px-3 py-1 text-xs text-cal backdrop-blur-sm">
+              <figcaption className="absolute bottom-3 left-3 max-w-[calc(100%-1.5rem)] rounded-2xl bg-basalto/65 px-3 py-1 text-xs text-cal backdrop-blur-sm">
                 {foto.legenda}
               </figcaption>
             </figure>
