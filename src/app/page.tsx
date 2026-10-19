@@ -32,11 +32,11 @@ export default function Home() {
   return (
     <>
       <header className="sticky top-0 z-10 border-b border-basalto/10 bg-cal/90 backdrop-blur pt-[env(safe-area-inset-top)]">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-margem py-3">
           <a href="#inicio" className="whitespace-nowrap font-display text-lg text-vinho sm:text-xl">
             {restaurante.nome}
           </a>
-          <nav className="hidden gap-6 text-sm md:flex [&>a]:transition-colors [&>a]:duration-150 [&>a:hover]:text-vinho">
+          <nav className="hidden gap-6 text-sm md:flex *:transition-colors *:duration-150 *:hover:text-vinho">
             <a href="#rodizio">Rodízio</a>
             <a href="#sobre">Sobre</a>
             <a href="#cardapio">Cardápio</a>
@@ -69,7 +69,7 @@ export default function Home() {
             aria-hidden
             className="absolute inset-0 -z-10 bg-linear-to-t from-basalto/95 via-basalto/55 to-basalto/35"
           />
-          <div className="mx-auto flex min-h-[calc(100svh-61px)] max-w-6xl flex-col px-4 pt-8 pb-10 md:pt-12">
+          <div className="mx-auto flex min-h-[calc(100svh-var(--altura-cabecalho)-env(safe-area-inset-top,0px))] max-w-6xl flex-col px-margem pt-8 pb-10 md:pt-12">
             <div className="entra flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 text-sm text-cal/85">
               <p>Cozinha da Quarta Colônia</p>
               <p>Centro · Santa Maria/RS</p>
@@ -112,7 +112,7 @@ export default function Home() {
         </section>
 
         {/* RODÍZIO */}
-        <section id="rodizio" className="mx-auto max-w-6xl px-4 py-20">
+        <section id="rodizio" className="mx-auto max-w-6xl px-margem py-20">
           <h2 className="font-display text-4xl text-vinho md:text-5xl">Rodízio de galeto</h2>
           <p className="mt-2 text-basalto-suave">
             {formatarPreco(rodizio.preco)} por pessoa. Vem tudo à mesa, até você pedir para parar.
@@ -127,7 +127,7 @@ export default function Home() {
         </section>
 
         {/* SOBRE */}
-        <section id="sobre" className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-20 md:grid-cols-2 md:gap-16">
+        <section id="sobre" className="mx-auto grid max-w-6xl items-center gap-10 px-margem pb-20 md:grid-cols-2 md:gap-16">
           <div>
             <h2 className="font-display text-4xl text-vinho md:text-5xl">A cozinha da Nona Gema</h2>
             <div className="mt-6 max-w-prose space-y-4 text-lg">
@@ -161,7 +161,7 @@ export default function Home() {
 
         {/* CARDÁPIO */}
         <section id="cardapio" className="bg-cal-escura py-20">
-          <div className="mx-auto max-w-6xl px-4">
+          <div className="mx-auto max-w-6xl px-margem">
             <h2 className="font-display text-4xl text-vinho md:text-5xl">Cardápio</h2>
             <nav aria-label="Categorias do cardápio" className="mt-6 -mx-4 flex gap-2 overflow-x-auto pr-10 pl-4 pb-2 [mask-image:linear-gradient(to_right,#000_calc(100%-2.5rem),transparent)] md:px-4 md:[mask-image:none]">
               {cardapio.map((c) => (
@@ -197,14 +197,14 @@ export default function Home() {
 
         {/* GALERIA */}
         <section id="galeria" className="py-20">
-          <h2 className="mx-auto max-w-6xl px-4 font-display text-4xl text-vinho md:text-5xl">Da cozinha para a mesa</h2>
+          <h2 className="mx-auto max-w-6xl px-margem font-display text-4xl text-vinho md:text-5xl">Da cozinha para a mesa</h2>
           <div className="mt-8">
             <Galeria fotos={galeria} />
           </div>
         </section>
 
         {/* VISITE */}
-        <section id="visite" className="mx-auto grid max-w-6xl gap-10 px-4 pt-8 pb-20 md:grid-cols-2">
+        <section id="visite" className="mx-auto grid max-w-6xl gap-10 px-margem pt-8 pb-20 md:grid-cols-2">
           <div>
             <h2 className="font-display text-4xl text-vinho md:text-5xl">Como chegar</h2>
             <p className="mt-4 text-lg">{restaurante.endereco}</p>
@@ -237,7 +237,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="bg-vinho px-4 py-10 pb-[calc(2.5rem+env(safe-area-inset-bottom))] text-cal/80">
+      <footer className="bg-vinho px-margem py-10 pb-[calc(2.5rem+env(safe-area-inset-bottom))] text-cal/80">
         <div className="mx-auto max-w-6xl text-sm">
           <p className="font-display text-xl text-cal">{restaurante.nome}</p>
           <p className="mt-2">Restaurante fictício, criado como projeto de demonstração.</p>

@@ -59,6 +59,12 @@
     text-wrap: pretty;
   }
 
+  /* Toque sem o atraso do duplo-toque */
+  a,
+  button {
+    touch-action: manipulation;
+  }
+
   :focus-visible {
     outline: 2px solid var(--color-vinho);
     outline-offset: 3px;
@@ -69,6 +75,12 @@
   }
 }
 
+/* Margem lateral que respeita o notch quando o celular está deitado */
+@utility px-margem {
+  padding-left: max(1rem, env(safe-area-inset-left, 0px));
+  padding-right: max(1rem, env(safe-area-inset-right, 0px));
+}
+
 /* Pressionáveis respondem ao toque (100–160ms, ease-out).
    Fica fora de @layer de propósito: a transição vale para todos, inclusive a opacidade das setas. */
 .pressable {
@@ -77,6 +89,10 @@
     background-color 160ms ease,
     border-color 160ms ease,
     opacity 150ms ease-out;
+  /* É controle, não texto: segurar o dedo não seleciona o rótulo nem abre o menu do link */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 .pressable:active {
   transform: scale(0.97);
