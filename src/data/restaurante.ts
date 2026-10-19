@@ -1,6 +1,16 @@
 // Restaurante FICTÍCIO — projeto de demonstração/portfólio.
 // Na etapa 2 estes dados passam a vir do Supabase (painel do dono).
 
+import type { StaticImageData } from "next/image";
+import brasa from "@/fotos/brasa.jpg";
+import caldo from "@/fotos/caldo.jpg";
+import massaFarinha from "@/fotos/massa-farinha.jpg";
+import salao from "@/fotos/salao.jpg";
+import sovandoMassa from "@/fotos/sovando-massa.jpg";
+import torteiAoSugo from "@/fotos/tortei-ao-sugo.jpg";
+import vinho from "@/fotos/vinho.jpg";
+import vinhedo from "@/fotos/vinhedo.jpg";
+
 export type Selo = "vegetariano" | "sem glúten";
 
 export type Prato = {
@@ -22,7 +32,28 @@ export const restaurante = {
     "Galeto al primo canto, massa feita à mão e polenta brustolada, do jeito da Quarta Colônia. No centro de Santa Maria.",
   endereco: "Rua Fictícia, 123 — Centro, Santa Maria/RS",
   whatsapp: "5555900000000", // número de exemplo
+  // Endereço fictício: o pino fica na Praça Saldanha Marinho, no Centro.
+  local: { lat: -29.6847, lon: -53.807 },
 };
+
+// Fotos (créditos em src/fotos/CREDITOS.md). `alt` descreve a foto; `legenda` aparece na tela.
+export type Foto = { src: StaticImageData; alt: string; legenda: string };
+
+export const fotoSobre: Foto = {
+  src: vinhedo,
+  alt: "Vinhedo numa encosta verde, com uma casa de pedra e morros ao fundo",
+  legenda: "Foto ilustrativa",
+};
+
+export const galeria: Foto[] = [
+  { src: massaFarinha, alt: "Mãos abrindo massa sobre a farinha", legenda: "Massa aberta na farinha" },
+  { src: torteiAoSugo, alt: "Prato de tortéi com molho de tomate e manjericão", legenda: "Tortéi ao sugo" },
+  { src: brasa, alt: "Carvão em brasa soltando faíscas na churrasqueira", legenda: "A brasa do galeto" },
+  { src: vinho, alt: "Taça de vinho tinto sobre mesa de madeira", legenda: "Vinho colonial" },
+  { src: sovandoMassa, alt: "Mãos sovando massa numa bancada enfarinhada", legenda: "Feita à mão toda manhã" },
+  { src: caldo, alt: "Prato fundo com caldo dourado e cebolinha", legenda: "Caldo da sopa de agnolini" },
+  { src: salao, alt: "Salão com mesas de madeira e luz amarela à noite", legenda: "O salão à noite" },
+];
 
 // Horário de funcionamento (horário de Brasília). Uma lista de turnos por dia da semana;
 // horas em decimal: 11.5 = 11h30. Dia sem turnos = fechado.

@@ -52,6 +52,14 @@ body {
   transform: scale(0.97);
 }
 
+/* Faixa da galeria: a 1ª foto alinha com o conteúdo (max-w-6xl + px-4),
+   mas a faixa vaza até a borda da tela para mostrar que tem mais para o lado. */
+.faixa {
+  --margem: max(1rem, calc((100% - 72rem) / 2 + 1rem));
+  padding-inline: var(--margem);
+  scroll-padding-inline: var(--margem);
+}
+
 /* Entradas da capa. Atraso por elemento via --atraso (style inline). */
 
 /* Título: cada palavra sobe de dentro de uma máscara.

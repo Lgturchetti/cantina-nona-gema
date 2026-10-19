@@ -1,15 +1,24 @@
+import Image from "next/image";
 import type { CSSProperties } from "react";
+import { Galeria } from "@/components/galeria";
 import { StatusAgora } from "@/components/status-agora";
 import {
   cardapio,
   formatarPreco,
+  fotoSobre,
+  galeria,
   horariosParaExibir,
   linkWhatsApp,
   restaurante,
   rodizio,
 } from "@/data/restaurante";
 
-// Fotos: blocos de cor até escolhermos as imagens do Unsplash/Pexels.
+// Mapa e atalhos de rota, a partir da localização em restaurante.local
+const { lat, lon } = restaurante.local;
+const bbox = [lon - 0.008, lat - 0.005, lon + 0.008, lat + 0.005].map((n) => n.toFixed(4)).join(",");
+const mapaOsm = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lon}`;
+const googleMaps = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
+const waze = `https://waze.com/ul?ll=${lat},${lon}&navigate=yes`;
 
 const reservar = linkWhatsApp(
   `Olá! Quero reservar uma mesa na ${restaurante.nome}.`,
@@ -26,9 +35,11 @@ export default function Home() {
           <a href="#inicio" className="whitespace-nowrap font-display text-lg text-vinho sm:text-xl">
             {restaurante.nome}
           </a>
-          <nav className="hidden gap-6 text-sm sm:flex">
+          <nav className="hidden gap-6 text-sm md:flex">
             <a href="#rodizio">Rodízio</a>
+            <a href="#sobre">Sobre</a>
             <a href="#cardapio">Cardápio</a>
+            <a href="#galeria">Galeria</a>
             <a href="#visite">Como chegar</a>
           </nav>
           <a
@@ -100,6 +111,39 @@ export default function Home() {
           </ul>
         </section>
 
+        {/* SOBRE */}
+        <section id="sobre" className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-20 md:grid-cols-2 md:gap-16">
+          <div>
+            <h2 className="font-display text-4xl text-balance text-vinho md:text-5xl">A cozinha da Nona Gema</h2>
+            <div className="mt-6 max-w-prose space-y-4 text-lg">
+              <p>
+                Gema Dalla Costa nasceu em Silveira Martins, na Quarta Colônia, neta de imigrantes vênetos
+                que chegaram em 1877. Aprendeu a abrir massa com a mãe, na mesa de madeira, nos domingos em
+                que vinha a família inteira.
+              </p>
+              <p>
+                Em 1994 trouxe as receitas para o centro de Santa Maria. A massa ainda é aberta à mão toda
+                manhã, o galeto vai para a brasa marinado no vinho branco com sálvia, e a polenta só sai da
+                chapa quando faz casquinha.
+              </p>
+              <p>
+                Hoje quem toca a cozinha são os netos. A receita do capeletti segue num caderno que ninguém
+                tem licença de levar para casa.
+              </p>
+            </div>
+          </div>
+          <figure>
+            <Image
+              src={fotoSobre.src}
+              alt={fotoSobre.alt}
+              placeholder="blur"
+              sizes="(min-width: 768px) 560px, 100vw"
+              className="aspect-[4/5] w-full rounded-sm object-cover"
+            />
+            <figcaption className="mt-2 text-xs text-basalto-suave">{fotoSobre.legenda}</figcaption>
+          </figure>
+        </section>
+
         {/* CARDÁPIO */}
         <section id="cardapio" className="bg-cal-escura py-20">
           <div className="mx-auto max-w-6xl px-4">
@@ -136,8 +180,16 @@ export default function Home() {
           </div>
         </section>
 
+        {/* GALERIA */}
+        <section id="galeria" className="py-20">
+          <h2 className="mx-auto max-w-6xl px-4 font-display text-4xl text-balance text-vinho md:text-5xl">Da cozinha para a mesa</h2>
+          <div className="mt-8">
+            <Galeria fotos={galeria} />
+          </div>
+        </section>
+
         {/* VISITE */}
-        <section id="visite" className="mx-auto grid max-w-6xl gap-10 px-4 py-20 md:grid-cols-2">
+        <section id="visite" className="mx-auto grid max-w-6xl gap-10 px-4 pt-8 pb-20 md:grid-cols-2">
           <div>
             <h2 className="font-display text-4xl text-vinho md:text-5xl">Como chegar</h2>
             <p className="mt-4 text-lg">{restaurante.endereco}</p>
@@ -150,7 +202,23 @@ export default function Home() {
               ))}
             </dl>
           </div>
-          <div aria-hidden className="min-h-64 rounded-sm bg-araucaria/15" />
+          <div className="flex flex-col gap-3">
+            {/* OpenStreetMap: leve e sem cookies. Só carrega quando chega perto da tela. */}
+            <iframe
+              title="Mapa do Centro de Santa Maria"
+              src={mapaOsm}
+              loading="lazy"
+              className="min-h-72 w-full flex-1 rounded-sm border border-basalto/10 bg-cal-escura"
+            />
+            <div className="flex flex-wrap gap-2">
+              <a href={googleMaps} target="_blank" rel="noopener" className="pressable rounded-full bg-vinho px-5 py-2.5 text-sm font-medium text-cal">
+                Abrir no Google Maps
+              </a>
+              <a href={waze} target="_blank" rel="noopener" className="pressable rounded-full border border-basalto/20 px-5 py-2.5 text-sm font-medium">
+                Abrir no Waze
+              </a>
+            </div>
+          </div>
         </section>
       </main>
 
