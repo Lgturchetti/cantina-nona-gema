@@ -36,7 +36,7 @@ export default function Home() {
           <a href="#inicio" className="whitespace-nowrap font-display text-lg text-vinho sm:text-xl">
             {restaurante.nome}
           </a>
-          <nav className="hidden gap-6 text-sm md:flex">
+          <nav className="hidden gap-6 text-sm md:flex [&>a]:transition-colors [&>a]:duration-150 [&>a:hover]:text-vinho">
             <a href="#rodizio">Rodízio</a>
             <a href="#sobre">Sobre</a>
             <a href="#cardapio">Cardápio</a>
@@ -45,7 +45,7 @@ export default function Home() {
           </nav>
           <a
             href={reservar}
-            className="pressable whitespace-nowrap rounded-full bg-vinho px-4 py-2 text-sm font-medium text-cal"
+            className="pressable whitespace-nowrap rounded-full bg-vinho px-4 py-2 text-sm font-medium text-cal hover:bg-vinho-escuro"
           >
             Reservar
           </a>
@@ -54,7 +54,7 @@ export default function Home() {
 
       <main id="inicio" className="flex-1">
         {/* CAPA — "Cartaz" sobre foto: título gigante em talian por cima da massa aberta à mão */}
-        <section className="relative isolate overflow-hidden bg-basalto text-cal">
+        <section className="tema-escuro relative isolate overflow-hidden bg-basalto text-cal">
           <Image
             src={fotoCapa.src}
             alt=""
@@ -100,10 +100,10 @@ export default function Home() {
                 <StatusAgora claro />
               </div>
               <div className="flex flex-wrap gap-3">
-                <a href="#cardapio" className="pressable rounded-full bg-polenta px-6 py-3 font-medium text-basalto">
+                <a href="#cardapio" className="pressable rounded-full bg-polenta px-6 py-3 font-medium text-basalto hover:bg-polenta-escura">
                   Ver cardápio
                 </a>
-                <a href={reservar} className="pressable rounded-full border border-cal/60 px-6 py-3 font-medium">
+                <a href={reservar} className="pressable rounded-full border border-cal/60 px-6 py-3 font-medium hover:border-cal hover:bg-cal/10">
                   Reservar
                 </a>
               </div>
@@ -129,7 +129,7 @@ export default function Home() {
         {/* SOBRE */}
         <section id="sobre" className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-20 md:grid-cols-2 md:gap-16">
           <div>
-            <h2 className="font-display text-4xl text-balance text-vinho md:text-5xl">A cozinha da Nona Gema</h2>
+            <h2 className="font-display text-4xl text-vinho md:text-5xl">A cozinha da Nona Gema</h2>
             <div className="mt-6 max-w-prose space-y-4 text-lg">
               <p>
                 Gema Dalla Costa nasceu em Silveira Martins, na Quarta Colônia, neta de imigrantes vênetos
@@ -153,7 +153,7 @@ export default function Home() {
               alt={fotoSobre.alt}
               placeholder="blur"
               sizes="(min-width: 768px) 560px, 100vw"
-              className="aspect-[4/5] w-full rounded-sm object-cover"
+              className="aspect-[4/5] w-full rounded-sm object-cover outline-1 -outline-offset-1 outline-basalto/10"
             />
             <figcaption className="mt-2 text-xs text-basalto-suave">{fotoSobre.legenda}</figcaption>
           </figure>
@@ -163,16 +163,16 @@ export default function Home() {
         <section id="cardapio" className="bg-cal-escura py-20">
           <div className="mx-auto max-w-6xl px-4">
             <h2 className="font-display text-4xl text-vinho md:text-5xl">Cardápio</h2>
-            <nav aria-label="Categorias do cardápio" className="mt-6 -mx-4 flex gap-2 overflow-x-auto px-4 pb-2">
+            <nav aria-label="Categorias do cardápio" className="mt-6 -mx-4 flex gap-2 overflow-x-auto pr-10 pl-4 pb-2 [mask-image:linear-gradient(to_right,#000_calc(100%-2.5rem),transparent)] md:px-4 md:[mask-image:none]">
               {cardapio.map((c) => (
-                <a key={c.id} href={`#${c.id}`} className="pressable shrink-0 rounded-full border border-basalto/20 px-4 py-2 text-sm">
+                <a key={c.id} href={`#${c.id}`} className="pressable shrink-0 rounded-full border border-basalto/20 px-4 py-2 text-sm hover:border-basalto/40 hover:bg-basalto/5">
                   {c.nome}
                 </a>
               ))}
             </nav>
             <div className="mt-10 grid gap-14 md:grid-cols-2">
               {cardapio.map((categoria) => (
-                <div key={categoria.id} id={categoria.id} className="scroll-mt-24">
+                <div key={categoria.id} id={categoria.id}>
                   <h3 className="font-display text-2xl text-araucaria">{categoria.nome}</h3>
                   <ul className="mt-4 space-y-5">
                     {categoria.pratos.map((prato) => (
@@ -197,7 +197,7 @@ export default function Home() {
 
         {/* GALERIA */}
         <section id="galeria" className="py-20">
-          <h2 className="mx-auto max-w-6xl px-4 font-display text-4xl text-balance text-vinho md:text-5xl">Da cozinha para a mesa</h2>
+          <h2 className="mx-auto max-w-6xl px-4 font-display text-4xl text-vinho md:text-5xl">Da cozinha para a mesa</h2>
           <div className="mt-8">
             <Galeria fotos={galeria} />
           </div>
@@ -226,10 +226,10 @@ export default function Home() {
               className="min-h-72 w-full flex-1 rounded-sm border border-basalto/10 bg-cal-escura"
             />
             <div className="flex flex-wrap gap-2">
-              <a href={googleMaps} target="_blank" rel="noopener" className="pressable rounded-full bg-vinho px-5 py-2.5 text-sm font-medium text-cal">
+              <a href={googleMaps} target="_blank" rel="noopener" className="pressable rounded-full bg-vinho px-5 py-2.5 text-sm font-medium text-cal hover:bg-vinho-escuro">
                 Abrir no Google Maps
               </a>
-              <a href={waze} target="_blank" rel="noopener" className="pressable rounded-full border border-basalto/20 px-5 py-2.5 text-sm font-medium">
+              <a href={waze} target="_blank" rel="noopener" className="pressable rounded-full border border-basalto/20 px-5 py-2.5 text-sm font-medium hover:border-basalto/40 hover:bg-basalto/5">
                 Abrir no Waze
               </a>
             </div>

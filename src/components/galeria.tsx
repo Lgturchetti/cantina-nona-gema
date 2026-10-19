@@ -33,7 +33,7 @@ export function Galeria({ fotos }: { fotos: Foto[] }) {
         onScroll={atualizar}
         tabIndex={0}
         aria-label="Fotos da cantina (role para o lado)"
-        className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain focus-visible:-outline-offset-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {fotos.map((foto) => (
           <li key={foto.legenda} className="shrink-0 snap-start">
@@ -77,7 +77,7 @@ function Seta({
       aria-label={rotulo}
       disabled={escondida}
       onClick={onClick}
-      className={`pressable absolute top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-full bg-cal/90 text-basalto shadow-[0_2px_8px_rgb(38_37_35/0.25)] backdrop-blur-sm transition-[opacity,background-color] duration-150 ease-out hover:bg-cal disabled:pointer-events-none disabled:opacity-0 [@media(hover:hover)_and_(pointer:fine)]:grid ${
+      className={`pressable absolute top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-full bg-cal/90 text-basalto shadow-[0_2px_8px_rgb(38_37_35/0.25)] backdrop-blur-sm hover:bg-cal disabled:pointer-events-none disabled:opacity-0 [@media(hover:hover)_and_(pointer:fine)]:grid ${
         lado === "esquerda" ? "left-4 md:left-6" : "right-4 md:right-6"
       }`}
     >

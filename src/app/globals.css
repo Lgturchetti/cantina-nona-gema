@@ -11,7 +11,9 @@
   --color-basalto: #262523;
   --color-basalto-suave: #5c5a55;
   --color-vinho: #5a1a2b;
+  --color-vinho-escuro: #46131f;
   --color-polenta: #edb23c;
+  --color-polenta-escura: #e0a22a;
   --color-araucaria: #2e4a36;
 
   /* Curvas fortes (emil-design-eng): nunca ease-in em UI */
@@ -28,25 +30,53 @@
   --font-sans: var(--font-instrument-sans);
 }
 
-html {
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
+/* Altura do cabeçalho fixo (py-3 + botão de 36px + borda) */
+:root {
+  --altura-cabecalho: 61px;
 }
 
-body {
-  background: var(--color-cal);
-  color: var(--color-basalto);
-  -webkit-tap-highlight-color: transparent;
+/* Em @layer base para que as classes do Tailwind possam sobrescrever */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    /* Âncoras do menu param abaixo do cabeçalho fixo, com folga */
+    scroll-padding-top: calc(var(--altura-cabecalho) + env(safe-area-inset-top) + 1rem);
+  }
+
+  body {
+    background: var(--color-cal);
+    color: var(--color-basalto);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-vinho);
+    outline-offset: 3px;
+  }
+  /* Sobre fundo escuro (capa) o contorno vinho some */
+  .tema-escuro :focus-visible {
+    outline-color: var(--color-cal);
+  }
 }
 
-:focus-visible {
-  outline: 2px solid var(--color-vinho);
-  outline-offset: 3px;
-}
-
-/* Pressionáveis respondem ao toque (100–160ms, ease-out) */
+/* Pressionáveis respondem ao toque (100–160ms, ease-out).
+   Fica fora de @layer de propósito: a transição vale para todos, inclusive a opacidade das setas. */
 .pressable {
-  transition: transform 140ms var(--ease-out), background-color 160ms ease;
+  transition:
+    transform 140ms var(--ease-out),
+    background-color 160ms ease,
+    border-color 160ms ease,
+    opacity 150ms ease-out;
 }
 .pressable:active {
   transform: scale(0.97);
