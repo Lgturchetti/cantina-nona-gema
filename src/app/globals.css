@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Cantina Nona Gema — tokens
+ * Paleta tirada da Quarta Colônia: cal das casas, basalto, vinho colonial,
+ * polenta e araucária. Sem modo escuro por enquanto.
+ */
+@theme {
+  --color-cal: #f4f4f0;
+  --color-cal-escura: #e7e6df;
+  --color-basalto: #262523;
+  --color-basalto-suave: #5c5a55;
+  --color-vinho: #5a1a2b;
+  --color-polenta: #edb23c;
+  --color-araucaria: #2e4a36;
+
+  /* Curvas fortes (emil-design-eng): nunca ease-in em UI */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --shadow-prato: 0 1px 2px rgb(38 37 35 / 0.06), 0 8px 24px -12px rgb(38 37 35 / 0.18);
 }
 
+/* Fontes vêm do next/font (variáveis no <html>) */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-young-serif);
+  --font-sans: var(--font-instrument-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cal);
+  color: var(--color-basalto);
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-vinho);
+  outline-offset: 3px;
+}
+
+/* Pressionáveis respondem ao toque (100–160ms, ease-out) */
+.pressable {
+  transition: transform 140ms var(--ease-out), background-color 160ms ease;
+}
+.pressable:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .pressable:active {
+    transform: none;
+  }
 }
