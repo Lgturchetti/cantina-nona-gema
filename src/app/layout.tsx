@@ -23,6 +23,8 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     type: "website",
   },
+  // Site de PORTFÓLIO (restaurante fictício): fora do Google para não confundir quem procura restaurante de verdade.
+  robots: { index: false, follow: false },
 };
 
 export const viewport: Viewport = {
