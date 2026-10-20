@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cantina Nona Gema
 
-## Getting Started
+Site de um restaurante **fictício** de cozinha da Quarta Colônia, em Santa Maria/RS.
+É um projeto de demonstração, feito para portfólio.
 
-First, run the development server:
+<p>
+  <img src="prints/desktop-capa.png" alt="Capa do site no desktop" width="68%">
+  &nbsp;
+  <img src="prints/celular-capa.png" alt="Capa do site no celular" width="26%">
+</p>
+
+## O que tem no site
+
+- **Capa** com o selo "Aberto agora / Fechado agora", calculado a partir dos horários
+- **Rodízio de galeto** e **cardápio** por categoria, com marcações de vegetariano e sem glúten
+- **A cozinha da Nona Gema**, a história da casa
+- **Galeria** de fotos em faixa, com setas no desktop e arraste no celular
+- **Como chegar**, com horários, mapa (OpenStreetMap) e botões para o Google Maps e o Waze
+- Botão **Reservar** que abre o WhatsApp
+
+Todo o conteúdo (cardápio, preços, horários, WhatsApp, endereço) fica num arquivo só:
+`src/data/restaurante.ts`. Para trocar um prato ou um horário, basta editar esse arquivo.
+
+## Feito com
+
+- [Next.js](https://nextjs.org) 16, React 19 e TypeScript
+- [Tailwind CSS](https://tailwindcss.com) 4
+- Fontes Young Serif e Instrument Sans
+- Fotos do [Pexels](https://www.pexels.com), com os créditos em `src/fotos/CREDITOS.md`
+
+Cuidados de acabamento:
+
+- Pensado primeiro para o celular: respeita o notch (safe area) e corrige a altura da tela
+- Animações curtas, que desligam quando o sistema pede menos movimento
+- Testado com dados extremos (nomes longos, listas vazias, turno que passa da meia-noite)
+
+## Rodar na sua máquina
+
+Precisa do Node 20 ou mais novo.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Depois, abra http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Prints
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<details>
+<summary>Página inteira no celular</summary>
 
-## Learn More
+<img src="prints/celular-inteira.png" alt="Página inteira no celular" width="390">
+</details>
 
-To learn more about Next.js, take a look at the following resources:
+<details>
+<summary>Página inteira no desktop</summary>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<img src="prints/desktop-inteira.png" alt="Página inteira no desktop">
+</details>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+<details>
+<summary>Como chegar (com o mapa)</summary>
 
-## Deploy on Vercel
+<img src="prints/desktop-como-chegar.png" alt="Seção Como chegar no desktop">
+<img src="prints/celular-como-chegar.png" alt="Seção Como chegar no celular" width="390">
+</details>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Desenvolvido por Lorenzo.
